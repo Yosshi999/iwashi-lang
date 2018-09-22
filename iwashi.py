@@ -58,7 +58,7 @@ if __name__ == '__main__':
             raise NameError('そんな命令は無い at line: %d' % i)
 
     for op in ops:
-        if op[0] == 'JZ' or op[0] == 'JG':
+        if op[0] == 'JZ' or op[0] == 'JGZ':
             op[1] = labels[op[1]]
     #for op in ops:
     #    print(op)
@@ -70,7 +70,11 @@ if __name__ == '__main__':
         opcode = op[0]
         if opcode == 'GETC':
             c = sys.stdin.read(1)
-            memory[mem_i] = ord(c)
+            if c == '':
+                # fail to read
+                memory[mem_i] = -1
+            else:
+                memory[mem_i] = ord(c)
         elif opcode == 'PUTC':
             print(chr(memory[mem_i]), end='', flush=True)
         elif opcode == 'GETN':
